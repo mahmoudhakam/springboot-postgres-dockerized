@@ -1,0 +1,31 @@
+version: '2'
+services:
+  SpringbootDockerized:
+    image: springbootdockerized
+    environment:
+      - _JAVA_OPTIONS=-Xmx1024m -Xms512m -XX:+UseG1GC
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - JHIPSTER_SLEEP=10 # gives time for other services to boot before the application
+    ports:
+      - 8080:8080
+    networks:
+      - springboot-network
+  postgres:
+    image: postgres
+    #container_name: "postgres-container"
+    environment:
+      POSTGRES_PASSWORD: MDF!@%ghg785
+    volumes:
+       - postgresdata:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - springboot-network
+    restart: always
+
+volumes:
+  postgresdata:
+
+networks:
+  springboot-network:
